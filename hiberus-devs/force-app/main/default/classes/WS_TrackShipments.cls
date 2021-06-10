@@ -10,12 +10,12 @@
  * * /services/apexrest/trackShipments
  *
     {
-        “envios” : [{
-            “fecha_envio” : “yyyy-mm-dd”,
-            “id_producto” : “string”,
-            “descripción Producto” : “string”,
-            “cantidad” : integer,
-            “almacen_Destino” : “string”
+        "envios" : [{
+            "fecha_envio" : "yyyy-mm-dd",
+            "id_producto" : "string",
+            "descripción Producto" : "string",
+            "cantidad" : integer,
+            "almacen_Destino" : "string"
         }]
     }
 */
@@ -34,7 +34,22 @@ global without sharing class WS_TrackShipments
     @HttpPost
     global static void trackShipments()
     {
-        WSShipmentResponse shipmentsResponse = new WSShipmentResponse();
+        Blob body = RestContext.request.requestBody;
+
+        //1 - Parseamos petición
+        Map<String, Object> wsShipmentRequest = (Map<String, Object>)JSON.deserializeUntyped(body.toString());
+
+        List<Object> shipmentsList = (List<Object>) wsShipmentRequest.get('envios');
+        
+        List<Shipment> shipments = new List<Shipment>();
+
+        for(Object shipmentElement : shipmentsList)
+        {
+            Shipment shipment = new Shipment(shipmentElement);
+            shipments.add(shipment);
+        }
+
+        /*WSShipmentResponse shipmentsResponse = new WSShipmentResponse();
 
         Blob body = RestContext.request.requestBody;
 
@@ -68,7 +83,7 @@ global without sharing class WS_TrackShipments
 
         system.debug('RESPONSE::' + shipmentsResponse);
         //3 - Enviamos respuesta
-        shipmentsResponse.setResponse(Restcontext.response);
+        shipmentsResponse.setResponse(Restcontext.response);*/
     }
 
     /*

@@ -22,7 +22,7 @@ public without sharing class Constants
     static 
     {                
         List<trackShipmentsSetup__mdt> setupConstants = [SELECT Id, DeveloperName, Value__c
-                                                            FROM trackShipments__mdt];
+                                                            FROM trackShipmentsSetup__mdt];
 
         Map<String, String> setupConstantsByDevName = new Map<String, String>();
 

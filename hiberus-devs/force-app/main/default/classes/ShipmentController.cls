@@ -30,4 +30,29 @@ public without sharing class ShipmentController
         return responses;
     }
 
+    /**************************************************************************************************************************************************************/
+    /************************************************************************CLASES AUXILIARES*********************************************************************/
+    /**************************************************************************************************************************************************************/
+    /**
+     * Clase constructora de la emisión de excepción
+     * @author jsetienr
+     * @date 10/06/2021 
+    */
+    public class ServiceException extends Exception
+    {
+        String sourceStackTrace = '';
+
+        public ServiceException(String message, String sourceStackTrace)
+        {
+            this();
+            this.setMessage(message);
+            this.sourceStackTrace = sourceStackTrace;
+        }
+
+        public String toString()
+        {
+            return this.getMessage() + '\n' + this.sourceStackTrace;
+        }
+    }
+
 }
