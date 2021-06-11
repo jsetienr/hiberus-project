@@ -34,26 +34,11 @@ global without sharing class WS_TrackShipments
     @HttpPost
     global static void trackShipments()
     {
-        Blob body = RestContext.request.requestBody;
-
-        //1 - Parseamos petición
-        Map<String, Object> wsShipmentRequest = (Map<String, Object>)JSON.deserializeUntyped(body.toString());
-
-        List<Object> shipmentsList = (List<Object>) wsShipmentRequest.get('envios');
-        
-        List<Shipment> shipments = new List<Shipment>();
-
-        for(Object shipmentElement : shipmentsList)
-        {
-            Shipment shipment = new Shipment(shipmentElement);
-            shipments.add(shipment);
-        }
-
-        /*WSShipmentResponse shipmentsResponse = new WSShipmentResponse();
+        WSShipmentResponse shipmentsResponse = new WSShipmentResponse();
 
         Blob body = RestContext.request.requestBody;
 
-        //VALIDACIÓN DE DATOS
+        //Validación de Datos
         if(body == null || String.isBlank(body.toString()))
         {                       
             shipmentsResponse.results = new List<ShipmentsResponse>{
@@ -65,25 +50,36 @@ global without sharing class WS_TrackShipments
 
         try 
         {
-            system.debug('trackShipments::' + body.toString());
-            //1 - Parseamos petición
-            Object shipments = (Object)JSON.deserializeUntyped(body.toString());
+            // 1 - Parseamos petición
+            // 1.1 - Convertimos el bruto del cuerpo de la petición
+            Map<String, Object> wsShipmentRequest = (Map<String, Object>)JSON.deserializeUntyped(body.toString());
 
-            List<ShipmentsResponse> responses = ShipmentController.trackShipments(shipments);            
-            shipmentsResponse.results = responses;           
+            // 1.2 - Extraemos la lista de envíos
+            List<Object> shipmentsList = (List<Object>) wsShipmentRequest.get('envios');
+            
+            List<ShipmentObject> shipments = new List<ShipmentObject>();
+
+            // 1.3 - Convertimos cada uno de los envíos en el objeto auxiliar ShipmentObject
+            for(Object shipmentElement : shipmentsList)
+            {
+                ShipmentObject shipment = new ShipmentObject(shipmentElement);
+                shipments.add(shipment);
+            }
+
+            // 2 - Elaboramos las respuestas del Servicio y realizamos el volcado de la información en Sf
+            List<ShipmentsResponse> responses = ShipmentController.trackShipments(shipments);
+            shipmentsResponse.results = responses; 
         } 
         catch (Exception ex) 
         {
-            system.debug('POST::trackShipments::Exception::' + ex.getMessage());
-
             shipmentsResponse.results = new List<ShipmentsResponse>{
                 new ShipmentsResponse('', Constants.RESPONSE_NOK, ex.getMessage())
             };
-        }                
+        }
 
-        system.debug('RESPONSE::' + shipmentsResponse);
-        //3 - Enviamos respuesta
-        shipmentsResponse.setResponse(Restcontext.response);*/
+        // 3 - Enviamos respuesta
+        shipmentsResponse.setResponse(Restcontext.response);
+
     }
 
     /*

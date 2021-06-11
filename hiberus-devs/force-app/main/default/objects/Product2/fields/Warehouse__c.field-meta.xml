@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Warehouse__c</fullName>
+    <description>Recoge la información del código de almacén de cara a poder establecer filtros en reports</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Inserte código de almacén. Por ejemplo: &quot;MAD&quot;</inlineHelpText>
+    <label>Warehouse</label>
+    <length>255</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
