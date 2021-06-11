@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Metadato de gestión de las variables configurables de la integración de seguimiento de envíos y productos</description>
+    <label>trackShipmentsSetup</label>
+    <pluralLabel>trackShipmentsSetups</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>
